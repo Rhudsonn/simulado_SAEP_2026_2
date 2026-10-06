@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Início')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<div class="container">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-3">
+            <h1 class="display-6">Bem-vindo ao Sistema de Almoxarifado</h1>
+            <p class="col-md-8 fs-5">Controle de insumos com rastreabilidade, controle de saldo e permissões por perfil.</p>
+            <div class="d-flex gap-2">
+                <a th:href="@{/produtos}" class="btn btn-primary btn-lg">Produtos</a>
+                <a th:href="@{/movimentacoes}" class="btn btn-success btn-lg">Movimentações</a>
+                <a th:href="@{/usuarios}" class="btn btn-warning btn-lg" sec:authorize="hasRole('ADMIN')">Usuários</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Funcionalidades</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cadastro e listagem paginada de produtos com filtros</li>
+                    <li class="list-group-item">Registro de entradas e saídas com atualização automática de estoque</li>
+                    <li class="list-group-item">Bloqueio de saída quando estoque insuficiente</li>
+                    <li class="list-group-item">Rastreabilidade: data/hora e usuário responsável</li>
+                    <li class="list-group-item">Perfis: Operador (CRUD parcial) e Admin (acesso total)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Seu perfil</div>
+                <div class="card-body">
+                    <p>Usuário: <strong sec:authentication="name"></strong></p>
+                    <p sec:authorize="hasRole('ADMIN')">Você tem permissão de <strong>Administrador</strong>: pode consultar, inserir, atualizar e excluir.</p>
+                    <p sec:authorize="hasRole('OPERADOR')">Você tem permissão de <strong>Operador</strong>: pode consultar, inserir e atualizar (sem exclusão).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Nova Movimentação')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: alerts}"></div>
+
+<div class="container">
+    <h2>Nova Movimentação</h2>
+    <form th:action="@{/movimentacoes/registrar}" method="post" class="mt-3">
+        <div class="mb-3">
+            <label class="form-label">Produto *</label>
+            <select name="produtoId" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option th:each="p : ${produtos}" th:value="${p.id}"
+                        th:text="${p.nome + ' (Estoque: ' + p.quantidadeEstoque + ')'}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tipo *</label>
+            <select name="tipo" class="form-select" required>
+                <option value="">Selecione...</option>
+                <option th:each="t : ${tipos}" th:value="${t.name()}" th:text="${t.descricao}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quantidade *</label>
+            <input type="number" name="quantidade" class="form-control" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <textarea name="observacao" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Registrar</button>
+        <a th:href="@{/movimentacoes}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
